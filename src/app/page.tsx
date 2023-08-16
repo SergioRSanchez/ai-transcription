@@ -1,12 +1,5 @@
 'use client'
 
-// https://www.youtube.com/watch?v=eHz8ns_n_Fg
-
-//  para a IA nós usamos a Transformers.js (https://github.com/xenova/transformers.js) indicada pelo Biro, que faz com que a gente use a IA em nosso navegador sem precisar usar a openIA, portanto é gratuita
-//  O porém é que ela dá uma travada em nosso aplicação enquanto estiver fazendo a transcrição do áudio, e a transcrição pode demorar um pouco
-//  essa ferramenta vai usar o Whisper IA
-//  usamos o 'Automatic Speech Recognition'
-
 import { useState } from 'react'
 import axios from 'axios'
 
@@ -87,7 +80,6 @@ export default function Home() {
 
       <section className='bg-surface-primary sm:p-10 px-4 pt-6 pb-6 sm:pb-14 flex flex-col sm:flex-row gap-8 sm:mx-20 rounded-t-[4rem] h-[75vh] sm:h-[80vh]'>
         <div className='sm:flex-1'>
-          {/* <Image src={YTPlayer} alt='YouTube Player' className='rounded-[2rem]' /> */}
           <video id='youtubeVideo' className='rounded-[2rem] aspect-video w-[355px] h-[288px] sm:w-[640px] sm:h-[360px] shadow-[0_4px_8px_0_rgba(0, 0, 0, 0.25)]'/>
         </div>
 
