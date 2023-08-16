@@ -10,16 +10,13 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-import Image from 'next/image'
-
 import { XCircle, CopySimple, CheckCircle, MagicWand } from '@phosphor-icons/react'
-
-import YTPlayer from '@/assets/yt-player.png'
 
 import { loadingMessage } from '@/function/loading-messages'
 import { getVideoId, loadingVideo } from '@/function/youtube-api'
 import { transcribeAudio } from '@/function/transcribe'
 import { renderText } from '../function/render'
+
 
 export default function Home() {
   const [ loading, setLoading ] = useState(false)

@@ -1,28 +1,44 @@
-const renderChunk = ({timestamp, text}) => `
-  <div class="chunk flex">
-    <time class="flex">${getMinutes(timestamp)}</time>
-    <p>
-      ${groupedText(text, timestamp)}
-    </p>
-  </div>
-`
+interface Chunk {
+  timestamp: [number, number];
+  text: string
+}
 
-function getMinutes(timestamp) {
+interface YTPlayer {
+  seekTo(time: number): void;
+  playVideo(): void
+}
+
+function renderChunk(chunk: Chunk): string {
+  return `
+    <div class="chunk flex">
+      <time class="flex">${getMinutes(chunk.timestamp)}</time>
+      <p>
+        ${groupedText(chunk.text, chunk.timestamp)}
+      </p>
+    </div>
+  `;
+}
+
+function getMinutes(timestamp: [number, number]): string {
   let date = new Date(null)
   date.setTime(timestamp[0] * 1000)
   return date.toISOString().slice(14, 19)
 }
 
-window.seek = function(event) {
-  const seekTo = event.currentTarget.dataset.seekTo
-  window.YTPlayer.seekTo(seekTo)
-  window.YTPlayer.playVideo()
+if (typeof window !== 'undefined') {
+  window.seek = function (event: MouseEvent) {
+    const seekTo = Number(event.currentTarget?.dataset?.seekTo)
+    if (!isNaN(seekTo) && window.YTPlayer) {
+      window.YTPlayer.seekTo(seekTo)
+      window.YTPlayer.playVideo()
+    }
+  }
 }
 
-function groupedText(text, timestamp) {
+function groupedText(text: string, timestamp: [number, number]): string {
   const words = text.split(" ")
 
-  const groups = []
+  const groups: string[] = []
 
   for (let index = 0; index < words.length; index += 1) {
     if (index % 3 === 0) {
@@ -37,8 +53,11 @@ function groupedText(text, timestamp) {
   }).join("")
 }
 
-export function renderText({chunks}) {
+export function renderText({ chunks }: {chunks: Chunk[]}): void {
   const formattedTranscription = chunks.map(renderChunk).join("")
 
-  document.getElementById('text').innerHTML = formattedTranscription
+  const textElement =  document.getElementById('text')
+  if (textElement) {
+    textElement.innerHTML = formattedTranscription
+  }
 }

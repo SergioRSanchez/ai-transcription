@@ -1,19 +1,27 @@
 import { loadingMessage } from './loading-messages';
 
-var tag = document.createElement('script');
+declare global {
+  interface Window {
+    YTPlayer: YT.Player | null;
+  }
+}
 
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+if (typeof window !== 'undefined') {
+  var tag = document.createElement('script');
+  
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+  
+  window.YTPlayer = null
+}
 
-window.YTPlayer = null
-
-export function getVideoId(url) {
+export function getVideoId(url: string) {
   const [part1, part2] = url.split('?v=')
   const [videoId, rest] = part2.split('&')
   return videoId
 }
-export function loadingVideo(url) {
+export function loadingVideo(url: string): Promise<void> {
   loadingMessage('Carregando vídeo do YouTube...')
 
   return new Promise ((resolve, reject) => {
